@@ -1,8 +1,7 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useDebugValue, useId, useState } from 'react';
 import './App.css';
 
-
-const AppContext = createContext();
+const AppContext = createContext("panel-dark");
 
 function App() {
   const [theme, setTheme] = useState("dark")
@@ -14,10 +13,20 @@ function App() {
   )
 }
 
+function debuggerHook() {
+  const appContxt = useContext(AppContext);
+  useDebugValue(appContxt === "panel-dark" ? "Dark Theme" : "Light Theme")
+}
+
 function Form() {
   const theme = useContext(AppContext);
+  debuggerHook();
+  const id = useId();
+  const id2 = useId();
   return (
-    <div className={theme === "light" ? "panel-light" : "panel-dark"}>
+    <div id={id} className={theme === "light" ? "panel-light" : "panel-dark"}>
+      {" "}
+      {id} {id2}
       <div>Welcome to the form</div>
     </div>
   )
